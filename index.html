@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>学中文 · HanWordTeam</title>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<!-- CSS được tách theo từng khu vực chức năng thay vì gộp 1 khối duy nhất -->
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/alphabet.css">
+<link rel="stylesheet" href="css/flashcard.css">
+<link rel="stylesheet" href="css/games.css">
+</head>
+<body>
+
+
+<div class="nav-bar" id="nav-bar">
+  <button class="nav-back-btn" id="nav-back-btn" onclick="goBack()"></button>
+  <div class="nav-breadcrumb" id="nav-breadcrumb"></div>
+</div>
+
+<!-- TEAM CREDIT BADGE (hiện ở mọi màn hình) -->
+<a class="team-badge" href="https://facebook.com/hanwordfptu" target="_blank" rel="noopener noreferrer" aria-label="HanWordTeam - facebook.com/hanwordfptu">
+  <div class="team-badge-logos">
+    <img class="team-logo-han" src="images/hanword-logo.png" alt="HanWordTeam logo">
+    <img class="team-logo-fptu" src="images/fptu-logo.png" alt="FPTU logo">
+  </div>
+  <div class="team-badge-text">
+    <span class="team-badge-name">HanWordTeam</span>
+    <span class="team-badge-fb">facebook.com/hanwordfptu</span>
+  </div>
+</a>
+
+<!-- HOME -->
+<div id="home" class="screen active">
+  <div class="lantern l1"></div>
+  <div class="lantern l2"></div>
+  <div class="lantern l3"></div>
+  <div class="lantern l4"></div>
+  <div class="title-zh">学中文</div>
+  <div class="title-sub">✦ HỌC TIẾNG TRUNG DỄ DÀNG ✦</div>
+  <div class="menu-grid-3">
+    <div class="menu-card" tabindex="0" role="button" onclick="showScreen('alphabet');initAlphabetScreen()">
+      <div class="icon-box icon-teal">🈶</div>
+      <div class="name">Bảng chữ cái</div>
+      <div class="desc">Học pinyin, 4 thanh điệu và cách viết chữ Hán cơ bản trước khi vào từ vựng.</div>
+      <div class="arrow-row"><span>Bắt đầu từ đây</span><span class="arrow">→</span></div>
+    </div>
+    <div class="menu-card" tabindex="0" role="button" onclick="openTopicPicker('flashcard','home')">
+      <div class="icon-box icon-purple">📚</div>
+      <div class="name">Học từ vựng</div>
+      <div class="desc">Chọn 1 chủ đề (gia đình, đồ ăn, trường học...) rồi học bằng thẻ lật.</div>
+      <div class="arrow-row"><span>Chọn chủ đề</span><span class="arrow">→</span></div>
+    </div>
+    <div class="menu-card" tabindex="0" role="button" onclick="showScreen('practice-menu')">
+      <div class="icon-box icon-coral">🎮</div>
+      <div class="name">Thực hành</div>
+      <div class="desc">Ôn lại từ đã học qua Săn Rồng, Đầu Hồ, Đua Gõ, Lì Xì và Pháo Hoa.</div>
+      <div class="arrow-row"><span>Chọn trò chơi</span><span class="arrow">→</span></div>
+    </div>
+  </div>
+  <div class="footer-home">中文学习 · HANWORD
+    
+  </div>
+</div>
+
+<!-- ALPHABET -->
+<div id="alphabet" class="screen">
+
+  <div class="ab-header">
+    <div class="ab-title-zh">Học bảng chữ cái</div>
+    <div class="ab-title-sub">Làm quen với Pinyin</div>
+  </div>
+
+  <div class="ab-layout">
+    <!-- LEFT: category navigation -->
+    <div class="ab-sidebar">
+      <button class="ab-filter-btn active" data-group="all" onclick="filterAlphabet('all')">
+        <span class="ab-filter-icon">🈶</span><span>Tổng hợp</span>
+      </button>
+      <button class="ab-filter-btn" data-group="initials" onclick="filterAlphabet('initials')">
+        <span class="ab-filter-icon">🔤</span><span>Phụ âm</span>
+      </button>
+      <button class="ab-filter-btn" data-group="finals" onclick="filterAlphabet('finals')">
+        <span class="ab-filter-icon">🔡</span><span>Nguyên âm</span>
+      </button>
+      <button class="ab-filter-btn" data-group="tones" onclick="filterAlphabet('tones')">
+        <span class="ab-filter-icon">🎵</span><span>Thanh điệu</span>
+      </button>
+
+      <details class="ab-jump-wrap">
+        <summary>Danh sách nhanh</summary>
+        <div class="ab-jump-grid" id="ab-jump-grid"></div>
+      </details>
+    </div>
+
+    <!-- RIGHT: single-focus learning card -->
+    <div class="ab-main">
+      <div class="ab-card">
+        <div class="ab-pinyin-row">
+          <div class="ab-pinyin" id="ab-pinyin">b</div>
+        </div>
+        <div class="ab-hanzi" id="ab-hanzi">爸</div>
+        <div class="ab-example-pinyin" id="ab-example-pinyin">bà</div>
+        <div class="ab-meaning" id="ab-meaning">bố, cha</div>
+
+        <div class="ab-tabs">
+          <button class="ab-tab active" data-tab="write" onclick="switchAbTab('write')">Viết</button>
+          <button class="ab-tab" data-tab="example" onclick="switchAbTab('example')">Ví dụ</button>
+        </div>
+
+        <div class="ab-tab-content" id="ab-tab-write">
+          <div class="ab-write-grid"><div class="ab-write-hanzi" id="ab-write-hanzi">爸</div></div>
+        </div>
+
+        <div class="ab-tab-content" id="ab-tab-example" style="display:none">
+          <div class="ab-example-sentence" id="ab-example-sentence"></div>
+        </div>
+      </div>
+
+      <div class="ab-progress-track"><div class="ab-progress-fill" id="ab-progress-fill"></div></div>
+      <div class="ab-nav-bar">
+        <button class="ab-nav-btn" onclick="prevAlphabet()">← Trước</button>
+        <div class="ab-counter"><span id="ab-group-tag">Phụ âm</span> · <span id="ab-counter">1 / 54</span></div>
+        <button class="ab-nav-btn" onclick="nextAlphabet()">Tiếp →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRACTICE MENU (chọn trò chơi để thực hành) -->
+<div id="practice-menu" class="screen">
+  <div class="game-title">🎮 Chọn Trò Chơi Thực Hành</div>
+  <div class="practice-grid">
+    <div class="practice-btn" tabindex="0" role="button" onclick="openTopicPicker('dragon','practice-menu')">
+      <div class="icon">🐉</div>
+      <div class="name">Săn Rồng</div>
+      <div class="desc">Bắn hạ từ đúng</div>
+    </div>
+    <div class="practice-btn" tabindex="0" role="button" onclick="openTopicPicker('dauho','practice-menu')">
+      <div class="icon">🏺</div>
+      <div class="name">Đầu Hồ</div>
+      <div class="desc">Ném tên vào bình 投壶</div>
+    </div>
+    <div class="practice-btn" tabindex="0" role="button" onclick="openTopicPicker('typing','practice-menu')">
+      <div class="icon">⌨️</div>
+      <div class="name">Đua Gõ</div>
+      <div class="desc">Gõ pinyin nhanh nhất</div>
+    </div>
+    <div class="practice-btn" tabindex="0" role="button" onclick="openTopicPicker('lixì','practice-menu')">
+      <div class="icon">🧧</div>
+      <div class="name">Bao Lì Xì</div>
+      <div class="desc">Từ vựng mùa Tết</div>
+    </div>
+    <div class="practice-btn" tabindex="0" role="button" onclick="openTopicPicker('firework','practice-menu')">
+      <div class="icon">🎆</div>
+      <div class="name">Pháo Hoa Chữ</div>
+      <div class="desc">Học chữ qua pháo hoa</div>
+    </div>
+    <div class="practice-btn" tabindex="0" role="button" onclick="openTopicPicker('lantern','practice-menu')">
+      <div class="icon">🏮</div>
+      <div class="name">Đèn Lồng Ghép Đôi</div>
+      <div class="desc">Lật thẻ tìm cặp Hán tự - nghĩa</div>
+    </div>
+  </div>
+</div>
+<!-- CHỌN CHỦ ĐỀ -->
+<div id="topic-picker" class="screen">
+  <div class="game-title" id="topic-picker-title">Chọn chủ đề</div>
+  <div class="menu-grid-3" id="topic-picker-grid" style="max-width:640px"></div>
+  <div class="general-topic-wrap" id="topic-picker-general"></div>
+</div>
+
+<!-- CHỌN BÀI HỌC -->
+<div id="lesson-picker" class="screen">
+  <div class="game-title" id="lesson-picker-title">Chọn bài học</div>
+  <div class="menu-grid-3" id="lesson-picker-grid" style="max-width:640px"></div>
+</div>
+
+<!-- FLASHCARD -->
+<div id="flashcard" class="screen">
+  <div class="game-title">📚 Thẻ Học Từ Vựng</div>
+  <div class="card-counter" id="fc-counter">1 / 20</div>
+  <div class="progress-bar"><div class="progress-fill" id="fc-progress" style="width:5%"></div></div>
+  <div class="card-container" id="fc-card" onclick="flipCard()">
+    <div class="card-inner" id="fc-inner">
+      <div class="card-face card-front">
+        <div class="card-flip-icon" aria-hidden="true"></div>
+        <div class="card-hanzi" id="fc-hanzi">你好</div>
+        <div class="card-pinyin" id="fc-pinyin">nǐ hǎo</div>
+      </div>
+      <div class="card-face card-back">
+        <div class="card-meaning" id="fc-meaning">Xin chào</div>
+        <div class="card-example" id="fc-example">你好！我是学生。<br><em>Xin chào! Tôi là học sinh.</em></div>
+      </div>
+    </div>
+  </div>
+  <div class="card-nav">
+    <button class="btn-prev" onclick="prevCard()">← Trước</button>
+    <button class="btn-next" onclick="nextCard()">Tiếp →</button>
+  </div>
+  <div class="card-shortcut-hint">⌨️ Space để lật · ← → để chuyển từ · Vuốt trên điện thoại</div>
+
+  <details class="fc-practice-wrap">
+    <summary>🎮 Luyện tập ngay với bài này</summary>
+    <div class="fc-practice-list" id="fc-practice-list"></div>
+  </details>
+</div>
+
+<!-- DRAGON HUNTER -->
+<div id="dragon" class="screen">
+  <div class="game-title">🐉 Săn Rồng Từ Vựng</div>
+  <div class="score-display" id="dragon-score">Điểm: 0</div>
+  <div class="lives-display" id="dragon-lives">❤️ ❤️ ❤️</div>
+  <canvas id="dragon-canvas" width="440" height="320"></canvas>
+  <div id="dragon-question" style="font-size:1.1rem;color:#ffd700;margin-top:1rem;text-align:center;min-height:28px;"></div>
+  <button class="game-start-btn" id="dragon-start" onclick="startDragon()">🐉 Bắt đầu săn!</button>
+</div>
+
+<!-- ĐẦU HỒ 投壶 -->
+<div id="dauho" class="screen">
+  <div class="game-title" style="color:#c8860a;margin-bottom:0.5rem">🏺 Đầu Hồ · 投壶</div>
+  <div class="dh-hud">
+    <div class="dh-stat"><div class="dv" id="dh-score">0</div><div class="dl">ĐIỂM</div></div>
+    <div class="dh-stat"><div class="dv" id="dh-streak">🎯 0</div><div class="dl">STREAK</div></div>
+    <div class="dh-stat"><div class="dv" id="dh-arrows">5</div><div class="dl">TÊN</div></div>
+  </div>
+  <div class="dh-word-strip" id="dh-word-strip">
+    <div class="dw-hanzi" id="dh-hanzi">-</div>
+    <div class="dw-pin" id="dh-pin"></div>
+    <div class="dw-hint" id="dh-hint">👆 Nhấn vào bình có nghĩa đúng ↓</div>
+  </div>
+  <div class="dh-result-msg" id="dh-result-msg"></div>
+  <canvas id="dh-canvas" width="440" height="400"></canvas>
+  <button class="game-start-btn" id="dh-start" onclick="startDauho()" style="background:linear-gradient(135deg,#7a4500,#c8860a);color:#fff">🏺 Bắt đầu!</button>
+</div>
+
+<!-- TYPING RACE -->
+<div id="typing" class="screen">
+  <div class="game-title">⌨️ Đua Gõ Pinyin</div>
+  <div class="typing-area">
+    <div class="typing-stats">
+      <div class="stat-item"><div class="stat-val" id="ty-score">0</div><div class="stat-lbl">Điểm</div></div>
+      <div class="stat-item"><div class="stat-val" id="ty-combo">x1</div><div class="stat-lbl">Combo</div></div>
+      <div class="stat-item"><div class="stat-val" id="ty-progress">-</div><div class="stat-lbl">Từ</div></div>
+      <div class="stat-item"><div class="stat-val" id="ty-time">10</div><div class="stat-lbl">Giây</div></div>
+    </div>
+    <div class="timer-bar"><div class="timer-fill" id="ty-timer" style="width:100%"></div></div>
+    <div class="typing-display" id="ty-display">
+      <div class="typing-hanzi" id="ty-hanzi">-</div>
+      <div class="typing-meaning" id="ty-meaning">Nhấn bắt đầu để chơi</div>
+    </div>
+    <input class="typing-input" id="ty-input" placeholder="Gõ pinyin tại đây..." disabled oninput="checkTyping()" autocomplete="off" autocorrect="off" spellcheck="false">
+    <div id="ty-result" class="result-screen" style="display:none">
+      <div class="result-score" id="ty-final-score">0</div>
+      <div class="result-msg" id="ty-final-msg"></div>
+    </div>
+  </div>
+  <button class="game-start-btn" id="ty-start" onclick="startTyping()">⌨️ Bắt đầu đua!</button>
+</div>
+
+<!-- BAO LÌ XÌ TẾT -->
+<div id="lixì" class="screen">
+  <div class="tet-title">🧧 Bao Lì Xì Tết</div>
+  <div class="tet-subtitle">✦ TỪ VỰNG MÙA TẾT NGUYÊN ĐÁN ✦</div>
+  <div class="ln-round-info" id="lx-phase-info">Phase 1/1</div>
+  <div class="progress-bar"><div class="progress-fill" id="lx-phase-progress" style="width:0%"></div></div>
+  <div class="tet-score-bar">
+    <div class="tet-stat"><div class="sv" id="lx-score">0</div><div class="sl">Điểm</div></div>
+    <div class="tet-stat"><div class="sv" id="lx-streak">🔥0</div><div class="sl">Chuỗi</div></div>
+    <div class="tet-stat"><div class="sv" id="lx-left">0</div><div class="sl">Còn lại</div></div>
+  </div>
+  <div class="envelope-area" id="lx-envelopes"></div>
+  <div class="tet-quiz-box" id="lx-quiz-box" style="display:none">
+    <div class="tet-question" id="lx-question"></div>
+    <div class="tet-choices" id="lx-choices"></div>
+  </div>
+  <button class="game-start-btn" id="lx-start" onclick="startLixi()">🧧 Mở Lì Xì!</button>
+  <div id="lx-result" style="display:none;text-align:center">
+    <div style="font-size:2.5rem;font-weight:800;color:#ffd700" id="lx-final-score">0</div>
+    <div style="font-size:1rem;color:rgba(255,215,0,0.8);margin:0.5rem 0" id="lx-final-msg"></div>
+    <button class="game-start-btn" onclick="startLixi()">🧧 Chơi lại!</button>
+  </div>
+
+  <div class="ln-complete-overlay" id="lx-phase-overlay" style="display:none">
+    <div class="ln-complete-title" id="lx-phase-title">🎉 Hoàn thành Phase!</div>
+    <div class="ln-complete-actions" id="lx-phase-actions"></div>
+  </div>
+</div>
+
+<!-- PHÁO HOA CHỮ -->
+<div id="firework" class="screen" style="padding:0;align-items:center;">
+  <div class="fw-wrap" id="fw-wrap">
+    <canvas id="fw-canvas"></canvas>
+
+    <!-- HUD top -->
+    <div class="fw-hud">
+      <div id="fw-combo-badge" class="fw-combo-badge" style="opacity:0">🔥 x1</div>
+      <div class="fw-hud-score">
+        <div class="sv" id="fw-score">0</div>
+        <div class="sl">ĐIỂM</div>
+      </div>
+    </div>
+
+    <!-- Word display center -->
+    <div class="fw-word-panel">
+      <div class="fw-word-hanzi" id="fw-hanzi">?</div>
+      <div class="fw-word-pin" id="fw-pin"></div>
+      <div class="fw-word-prompt" id="fw-prompt">Chọn nghĩa đúng → châm ngòi pháo!</div>
+      <div class="fw-result-text" id="fw-result-text"></div>
+    </div>
+
+    <!-- Answer reveal strip -->
+    <div class="fw-answer-reveal" id="fw-answer-reveal"></div>
+
+    <!-- 4 Cannons at bottom -->
+    <div class="fw-cannon-area">
+      <div class="fw-cannons" id="fw-cannons">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+
+    <!-- Start overlay -->
+    <div class="fw-start-overlay" id="fw-overlay">
+      <div class="fw-start-title">🎆 Pháo Hoa Chữ<br><span style="font-size:1.5rem">烟花汉字</span></div>
+      <div class="fw-start-desc">Nhìn chữ Hán + pinyin ở giữa<br>→ Bấm <strong style="color:#ffd700">DÂY PHÁO</strong> có nghĩa đúng<br>→ Pháo bắn lên trời! 🎇<br><span style="font-size:0.75rem;color:rgba(255,255,255,0.4)">Combo cao → pháo hoa càng đẹp ✨</span></div>
+      <button class="game-start-btn" onclick="startFirework()">🎆 Châm ngòi thôi!</button>
+    </div>
+  </div>
+</div>
+
+<!-- ĐÈN LỒNG GHÉP ĐÔI -->
+<div id="lantern" class="screen">
+  <div class="game-title">🏮 Đèn Lồng Ghép Đôi</div>
+  <div class="ln-round-info" id="ln-round-info">Vòng 1/1</div>
+  <div class="progress-bar" style="max-width:420px"><div class="progress-fill" id="ln-progress" style="width:0%"></div></div>
+  <div class="ln-board" id="ln-board"></div>
+
+  <div class="ln-start-overlay" id="ln-start-overlay">
+    <div class="ln-start-title">🏮 Đèn Lồng<br>Ghép Đôi</div>
+    <div class="ln-start-desc">Lật 2 thẻ để tìm cặp Hán tự và nghĩa tiếng Việt giống nhau.<br>Mỗi vòng có tối đa 10 cặp từ.</div>
+    <button class="game-start-btn" id="ln-start-btn" onclick="startLantern()">🏮 Bắt đầu vòng <span id="ln-start-round">1</span></button>
+  </div>
+
+  <div class="ln-complete-overlay" id="ln-complete-overlay" style="display:none">
+    <div class="ln-complete-lanterns" id="ln-complete-fx"></div>
+    <div class="ln-complete-title" id="ln-complete-title">🎉 Chúc mừng!</div>
+    <div class="ln-complete-actions" id="ln-complete-actions"></div>
+  </div>
+</div>
+
+<!-- MODEL: dữ liệu từ vựng / bảng chữ cái -->
+<script src="js/data/topics.js"></script>
+<script src="js/data/alphabet-data.js"></script>
+
+<!-- CONTROLLER: điều hướng màn hình + logic từng game -->
+<script src="js/core/ScreenManager.js"></script>
+<script src="js/games/alphabet.js"></script>
+<script src="js/games/lantern.js"></script>
+<script src="js/core/app.js"></script>
+</body>
+</html>

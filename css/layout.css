@@ -1,0 +1,28 @@
+/* ============================================================
+   Layout dùng chung mọi màn hình: thanh điều hướng (nav-bar) + badge nhóm (team-badge)
+   ============================================================ */
+  /* NAV BAR: back button + breadcrumb trail (shared across every non-home screen) */
+  .nav-bar { position: fixed; top: 14px; left: 14px; right: 14px; z-index: 100; display: none; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .nav-back-btn { background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25); color: #fff; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 0.85rem; font-weight: 600; font-family: 'Nunito', sans-serif; transition: all 0.2s; white-space: nowrap; }
+  .nav-back-btn:hover { background: rgba(255,255,255,0.22); transform: translateX(-2px); }
+  .nav-back-btn:focus-visible { outline: 2px solid #ffd700; outline-offset: 2px; }
+  .nav-breadcrumb { display: flex; align-items: center; flex-wrap: wrap; gap: 2px; background: rgba(0,0,0,0.32); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 7px 14px; font-size: 0.78rem; }
+  .crumb-link { color: rgba(255,255,255,0.8); cursor: pointer; padding: 3px 5px; border-radius: 6px; transition: color 0.15s, background 0.15s; }
+  .crumb-link:hover, .crumb-link:focus-visible { color: #ffd700; background: rgba(255,215,0,0.14); }
+  .crumb-sep { color: rgba(255,255,255,0.35); margin: 0 1px; }
+  .crumb-current { color: #ffd700; font-weight: 700; padding: 3px 5px; }
+  @media (max-width: 560px) { .nav-breadcrumb { display: none; } }
+
+  /* TEAM CREDIT BADGE — hiển thị ở mọi màn hình, góc dưới bên trái */
+  .team-badge { position: fixed; left: 10px; bottom: 10px; z-index: 500; display: flex; align-items: center; gap: 8px; background: rgba(26,10,46,0.72); border: 1px solid rgba(255,215,0,0.3); border-radius: 999px; padding: 5px 12px 5px 5px; text-decoration: none; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); box-shadow: 0 4px 16px rgba(0,0,0,0.35); transition: background 0.25s, border-color 0.25s, transform 0.25s, box-shadow 0.25s; }
+  .team-badge:hover, .team-badge:focus-visible { background: rgba(45,27,105,0.88); border-color: rgba(255,215,0,0.7); transform: translateY(-2px); box-shadow: 0 8px 22px rgba(255,215,0,0.18); }
+  .team-badge:focus-visible { outline: 2px solid #ffd700; outline-offset: 2px; }
+  .team-badge-logos { position: relative; width: 34px; height: 28px; flex-shrink: 0; }
+  .team-badge-logos img { position: absolute; border-radius: 50%; object-fit: cover; display: block; background: #fdead9; }
+  .team-logo-han { width: 28px; height: 28px; left: 0; top: 0; border: 1.5px solid rgba(255,215,0,0.55); }
+  .team-logo-fptu { width: 17px; height: 17px; left: 18px; top: 11px; border: 1.5px solid #1a0a2e; box-shadow: 0 0 0 1px rgba(255,215,0,0.5); z-index: 2; }
+  .team-badge-text { display: flex; flex-direction: column; line-height: 1.25; }
+  .team-badge-name { font-size: 0.7rem; font-weight: 800; color: #ffd700; letter-spacing: 0.2px; }
+  .team-badge-fb { font-size: 0.58rem; color: rgba(255,255,255,0.6); }
+  @media (max-width: 480px) { .team-badge { padding: 4px 10px 4px 4px; gap: 6px; } .team-badge-fb { display: none; } .team-logo-han { width: 24px; height: 24px; } .team-logo-fptu { width: 15px; height: 15px; left: 15px; top: 9px; } .team-badge-logos { width: 30px; height: 24px; } }
+
